@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Candle</title>
+  <style>
+    body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #df92ba;
+      transition: background-color 1s ease; /* Add a smooth transition effect */
+    }
+
+    #candle {
+      position: absolute;
+      top: 25%;
+      bottom: 25%;
+      border-radius: 5px 5px ;
+      width: 20px;
+      height: 200px;
+      background-color: #536be4;
+      margin-top: 50px;
+      box-shadow: 50px 20px #536be4, -50px 20px #536be4;
+    }
+    
+    #cake{
+      position: absolute;
+      border-radius:20px 20px 0px 0px;
+      top: 45%;
+      left: 5;
+      bottom: 25%;
+      width: 500px;
+      height: 200px;
+      background-color: #c16e4b;
+      margin-top: 50px;
+    }
+
+    #flame {
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #ffdb58, #ffd700, transparent);
+      border-radius: 80% 15% 55% 50%/ 55% 15% 80% 50%;
+      position: absolute;
+      bottom: 100%;
+      left: -20%;
+      transform: translateX(-50%);
+      animation: flame 0.4s infinite alternate; /* Fire animation */
+    }
+
+    #flame-insider{
+      width: 12px;
+      height: 20px;
+      background: radial-gradient(circle, #d16b0c, #c05d00, transparent);
+      border-radius: 70%;
+      position: absolute;
+      bottom: 100%;
+      left: 4px;
+      transform: translateX(-60%);
+      animation: flame 0.7s infinite alternate; /* Fire animation */
+    }
+
+    .blown #flame,
+    .blown #flame-insider {
+  animation: none; /* Disable flame animation when blown */
+  display: none;  /* Hide the flame elements when blown */
+}
+
+
+    @keyframes flame {
+     
+      0%, 25%, 100% {transform: scale(1) rotate(-45deg);}
+      50%, 75% {transform: scale(1.1) rotate(-45deg);}
+
+    }
+
+    .blown {
+      background-color: #000; /* Change background color to simulate turning off the light */
+    }
+
+    #volume-bar {
+      width: 20px;
+      height: 0;
+      background-color: #3498db;
+      margin-top: 20px;
+      transition: height 0.2s ease; /* Add a smooth transition effect */
+    }
+  </style>
+</head>
+<body>
+  <div id="candle" class="">
+    <div id="flame"></div>
+    <div id="flame-insider"></div>
+  </div>
+  <div id="cake"></div>
+
+  <!-- <div id="volume-bar"></div> -->
+
+  <script>
+    // Wait for the DOM to be fully loaded before executing the script
+    document.addEventListener("DOMContentLoaded", ()=> {
+      const body = document.body;
+      const candle = document.getElementById('candle');
+      const volumeBar = document.getElementById('volume-bar');
+      let audioContext; // Declare the AudioContext variable
+
+      // Function to blow off the candle
+      function blowCandle() {
+        console.log('Candle blown off!');
+        candle.classList.add('blown');
+        body.classList.add('blown');
+      }
+
+
+      function updateFlamePosition(volume) {
+        const maxTranslation = 10; // Maximum translation in pixels
+        const translation = volume / 255 * maxTranslation; // Adjust translation based on volume
+
+        flame.style.transform = `translateX(-50%) translateY(${translation}px)`;
+      }
+
+      // Function to update volume bar
+      function updateVolumeBar(height) {
+        volumeBar.style.height = `${height}px`;
+      }
+
+      // Function to create AudioContext
+      function createAudioContext() {
+        // Use the appropriate vendor-prefixed version if available
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+
+        // Access the user's microphone
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(stream => {
+            console.log('Microphone access successful');
+            const microphone = audioContext.createMediaStreamSource(stream);
+            microphone.connect(analyser);
+            analyser.connect(audioContext.destination);
+            
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            // Check for blow every 100ms
+            setInterval(() => {
+              analyser.getByteFrequencyData(dataArray);
+              const average = dataArray.reduce((acc, val) => acc + val, 0) / bufferLength;
+
+              console.log('Average Sound Intensity:', average);
+
+              // Update the volume bar based on the average sound intensity
+              // updateVolumeBar(average);
+              updateFlamePosition(average);
+              // If the sound intensity is above a threshold, blow the candle
+              if (average > 60) {
+                console.log('Blow detected!');
+                blowCandle();
+              }
+            }, 100);
+          })
+          .catch(err => {
+            console.error('Error accessing microphone:', err);
+            alert('Error accessing microphone. Please check your browser settings.');
+          });
+      }
+
+      // Event listener for user click to create AudioContext
+      document.addEventListener("click", createAudioContext);
+    });
+  </script>
+</body>
+</html>
