@@ -140,7 +140,7 @@
             console.log('Microphone access successful');
             const microphone = audioContext.createMediaStreamSource(stream);
             microphone.connect(analyser);
-            analyser.connect(audioContext.destination);
+            // analyser.connect(audioContext.destination);  // คอมเมนต์บรรทัดนี้ออกเพื่อป้องกันการเล่นเสียงออกลำโพง
             
             analyser.fftSize = 256;
             const bufferLength = analyser.frequencyBinCount;
@@ -157,7 +157,7 @@
               // updateVolumeBar(average);
               updateFlamePosition(average);
               // If the sound intensity is above a threshold, blow the candle
-              if (average > 60) {
+              if (average > 40) {
                 console.log('Blow detected!');
                 blowCandle();
               }
