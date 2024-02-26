@@ -18,14 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = document.querySelector(".text");
     text.style.transition = "opacity 0.5s, top 0.5s"; // Assuming "fast" is about 0.5 seconds
     text.style.opacity = "1";
-    text.style.top = '40px';
+    text.style.top = "-360px";
 
     const text2 = document.querySelector(".text2");
-    text2.innerHTML="มีความสุขเยอะๆนะแกหลังจากนี้ไม่ได้เจอกันแล้วเศร้าเหมือนกันนะ"
+    text2.style.paddingTop = "16px";
+    text2.style.fontSize = "1rem";
+    text2.innerHTML =
+    "สุขสันวันเกิดย้อนหลังนะฮะขออภัยทำให้สำเร็จช้าไปหน่อยก็ มีความสุขสมหวังไม่เจ็บไม่ป่วยชีวิตสดใสเหมือนหน้านะอิอิและก็ได้งานอย่างที่ตั้งใจไวๆแกหลังจากนี้ไม่ได้เจอกันแล้วเศร้าเหมือนกันนะใจจริงก็ยังไม่อยากไปจากที่นี่เลยอยากเฮฮากันเหมือนเดิมเวลามีซีรีย์อะไรก็มาแนะนำกันไรงี้ 555 เหงาแหละดูออก ตรูเนี่ย ก็ สุขสันต์วันเกิดอีกรอบจ้า ♥♥♥";
 
     // Change the background color of the body
-    document.body.style.transition = 'background-color 0.5s';
-    document.body.style.backgroundColor = '#000';
+    document.body.style.transition = "background-color 0.5s";
+    document.body.style.backgroundColor = "#000";
+
+    document.removeEventListener("click", createAudioContext);
   }
 
   // function updateFlamePosition(volume) {
@@ -42,8 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to create AudioContext
   function createAudioContext() {
-    // Use the appropriate vendor-prefixed version if available
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const text2 = document.querySelector(".text2");
+    text2.innerHTML = "อธิฐานแล้วเป่าเทียนได้เลยจ้า";
+    // สร้าง AudioContext ใหม่ โดยคำนึงถึงความเข้ากันได้ของเบราว์เซอร์
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+
+    // สร้าง AnalyserNode จาก AudioContext
     const analyser = audioContext.createAnalyser();
 
     // Access the user's microphone
@@ -71,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // updateVolumeBar(average);
           // updateFlamePosition(average);
           // If the sound intensity is above a threshold, blow the candle
-          if (average > 40) {
+          if (average > 50) {
             console.log("Blow detected!");
             blowCandle();
           }
