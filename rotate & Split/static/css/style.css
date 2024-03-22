@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+
+    font-family: 'Arial', sans-serif;
+    /*background-color: #fffff4;*/
+    color: #000000;
+    /* เปลี่ยนชื่อไฟล์รูปภาพตามที่คุณมี */
+    background-size: cover;
+    /* เพื่อให้รูปภาพทำการ cover พื้นที่ของ body */
+    background-repeat: no-repeat;
+    /* ปิดการทำซ้ำรูปภาพ */
+    height: 100vh;
+   
+    
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    /*แกนY*/
+    /* justify-content: space-between;* จัดแนวแกน/
+	align-items: center;  /*แกนX*/
+
+}
+
+#split-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 500px;
+    height: 390px;
+    background-color: #C6E2FF;
+    border-radius: 60px 60px / 60px 60px;
+    border: 5px dashed #1E90FF;
+    margin-top: 5rem;
+    margin-bottom: 6rem;
+}
+
+/* องประกอบส่วนหู */
+#split-form::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 20px;
+    left: 100px;
+    margin: 0;
+    border-radius: 50%;
+    border-left: 50px solid #bababa;
+    border-right: 50px solid #bababa;
+    border-bottom: 86.6px solid #bababa;
+    filter: blur(1px) drop-shadow(320px 0 0 #adb3ac) drop-shadow(6px 0 0 #20201f);
+    z-index: -1;
+}
+
+/* องประกอบส่วนแก้ม */
+#split-form::after{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 200px;
+    left: 70px;
+    border-radius: 80% 20%;
+    border-left: 20px solid #e6b8e3;
+    border-right: 20px solid #e6b8e3;
+    border-top:1px solid transparent ;
+    border-bottom: 86.6px solid #e6b8e3;
+    filter: blur(10px) drop-shadow(420px 0 0 #e6b8e3) drop-shadow(6px 0 0 #e6b8e3);
+    transform: rotateX(60deg);
+    z-index: 2;
+}
+
+#rotate-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 600px;
+    height: 300px;
+    background-color: rgb(214, 207, 255);
+    border-radius: 20px 20px / 20px;
+    border: 5px dashed #AB82FF;
+}
+
+/* องประกอบส่วนหู */
+#rotate-form::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 420px;
+    left: 100px;
+    border-radius: 50%;
+    border-left: 50px solid #bababa;
+    border-right: 50px solid #bababa;
+    border-bottom: 86.6px solid #bababa;
+    filter: blur(1px) drop-shadow(320px 0 0 #adb3ac) drop-shadow(6px 0 0 #20201f);
+    z-index: -1;
+}
+
+
+/* องประกอบส่วนแก้ม */
+#rotate-form::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 600px;
+    left: 80px;
+    border-radius: 80% 20%;
+    border-left: 20px solid #e6b8e3;
+    border-right: 20px solid #e6b8e3;
+    border-top:1px solid transparent ;
+    border-bottom: 86.6px solid #e6b8e3;
+    filter: blur(10px) drop-shadow(420px 0 0 #e6b8e3) drop-shadow(6px 0 0 #e6b8e3);
+    transform: rotateX(60deg);
+    z-index: 2;
+}
+
+
+button {
+    position: absolute;
+    margin: 1rem;
+    display: block;
+    width: 100px;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 0.5rem;
+    left: 240px;
+
+}
+
+label{
+    margin-right:5px ;
+}
+
+#splitsummit:hover {
+    background-color: #1E90FF;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#rotatesummit:hover {
+    background-color: #AB82FF;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input{
+    display: inline-block;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 3px;
+}
+input[type="file"]{
+    display: none;
+}
+
+input::placeholder{
+    text-align: center;
+}
+
+input:focus::placeholder {
+    text-align: center;
+}
+
+h1 {
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px 10px / 10px;
+    width: 50%;
+    color: rgb(255, 255, 255);
+    /* สีฟร้อน */
+}
+
+h2 {
+    margin-top: -2rem;
+    text-align: center;
+    border-radius: 10px 10px / 10px;
+}
