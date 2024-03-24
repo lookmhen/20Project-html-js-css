@@ -35,17 +35,36 @@ dropAreas.forEach(dropArea => {
 // Function to handle dropped files
 function handleFiles(files, dropArea) {
   const input = dropArea.querySelector('input[type="file"]');
-  // const showname = document.getElementById("filename");
-  // console.log(input.files[0].name)
-  // showname.textContent = input.files[0].name;
-  // showname.style.fontWeight="Bold"
-  // showname.style.color="#1E90FF"
-  // input.style.display="inline-block"
-  
-  const label = dropArea.querySelector('label[for="file"]');
-  label.textContent="";
   input.files = files; // Set dropped files to the input element
+  console.log(dropArea)
+  showName(input,dropArea)
 }
+
+
+
+//โชว์ชื่อไฟล์
+function showName(input, dropArea){
+  let showname;
+  if (dropArea.id === "split-form") {
+    showname = document.getElementById("split-filename");
+    showname.style.color = "#1E90FF"; // Blue color for split filename
+  } else if (dropArea.id === "rotate-form") {
+    showname = document.getElementById("rotate-filename");
+    showname.style.color = "#FF4500"; // Different color, e.g., Orange for rotate filename
+  }
+  
+  showname.textContent = input.files[0].name;
+  showname.style.fontWeight = "Bold";
+  showname.style.textDecoration = "underline";
+
+  const label = dropArea.querySelector('label[for="file"]');
+  label.textContent = "";
+}
+
+
+
+
+
 
 // Add event listener for when files are selected through the file input element
 document.querySelectorAll('input[type="file"]').forEach(input => {

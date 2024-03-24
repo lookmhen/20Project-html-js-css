@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="qrcode.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      background-color: gray;
+    }
+    
+    body h1 {
+      margin: 1rem;
+      text-align: center;
+    }
+    
+    .container {
+      position: relative;
+      margin: 5rem;
+      padding: 2rem;
+      width: 700px;
+      overflow-wrap: normal;
+      border-radius: 10px;
+      background-color: deepskyblue;
+    }
+
+    .wifiForm{
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .container label {
+      margin: 5px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .container label::placeholder {
+      text-align: center;
+    }
+    
+    #generate-btn {
+      width: 200px;
+      height: 50px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background-color: rgb(172, 228, 155);
+      box-shadow: 10px 5px 5px rgb(75, 75, 75);
+    }
+
+    #generate-btn:hover{
+      transform: scale(1.2);
+    }
+    
+    #qrcode img {
+      width: 256px;
+      height: 256px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    
+    input[type="text"],input[type="password"] {
+      width: 256px;
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    #showpwd{
+      position: absolute;
+      top:73px;
+      right: 40px;
+    }
+
+    .signature{
+      margin: 5px;
+      padding: 2px;
+      position: absolute;
+      right: 0;
+      color: gray;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Generate WiFi QR Code connect &#x1F60E</h1>
+    
+    <form class="wifiForm">
+      <div id="qrcode"></div>
+      
+      <label for="ssid">SSID: <input type="text" id="ssid" placeholder="Wifi Name" required></label>
+      <br>
+      <label for="password">Password: <input type="text" id="password" placeholder="Wifi Password" required></label>
+      <br>
+      <label for="proxy">Proxy: <input type="text" id="proxy" placeholder="not require"></label>
+      <br>
+      <button type="submit" id="generate-btn">Generate QR Code</button>
+    </form>
+      <span class="signature">By MIT Huatimbore</span>
+  </div>
+
+  <script>
+    const wifiForm = document.querySelector(".wifiForm");
+    const generateButton = document.getElementById("generate-btn");
+    const qrcodeContainer = document.getElementById("qrcode");
+
+
+    wifiForm.addEventListener("submit",  (event)=> {
+      event.preventDefault(); // Prevent the form from submitting and page reloading
+
+      const ssid = document.getElementById("ssid").value;
+      const password = document.getElementById("password").value;
+      const proxy = document.getElementById("proxy").value;
+      const data = `WIFI:T:WPA;S:${ssid};P:${password};PROXY:${proxy};;`;
+
+      // Clear previous QR code
+      qrcodeContainer.innerHTML = "";
+
+      // Generate new QR code
+      const qrcode = new QRCode(qrcodeContainer, {
+        text: data,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#FFFFFF",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    });
+  </script>
+</body>
+
+
+
+</html>
